@@ -1,7 +1,13 @@
-import BBallUtils.*;
+import database.*;
+import database.entity.Player;
+import database.entity.Team;
+import database.util.FileParser;
+
 import java.util.*;
 
 public class Main {
+
+  /*
     public static void main(String[] args) {
         Player player1 = new Player();
         player1.setSalaryThisSeason(100000);
@@ -40,4 +46,17 @@ public class Main {
 
 
     }
+
+   */
+
+  public static void main(String[] args) {
+    List<Team> teams = FileParser.readTeams("teams.csv");
+    List<Player> players = FileParser.readPlayers(teams, "players.csv");
+    DataBase dataBase = new InMemoryDataBase(players, teams);
+
+    Team randomTeam = dataBase.selectRandomTeam();
+    System.out.println("Random team: " + randomTeam + "\n");
+    Player randomTeamBestPlayer = dataBase.teamBestPlayer(randomTeam);
+    System.out.println(randomTeam + " best player: " + randomTeamBestPlayer + "\n");
+  }
 }
